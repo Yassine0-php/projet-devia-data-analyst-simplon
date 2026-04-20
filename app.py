@@ -8,3 +8,40 @@ figure = px.pie(données, values='qte', names='region', title='quantité vendue 
 figure.write_html('ventes-par-region.html')
 
 print('ventes-par-région.html généré avec succès !')
+
+
+
+
+
+
+# -----------------------------
+# 2. Ventes par produit
+# -----------------------------
+ventes_produit = données.groupby('produit', as_index=False)['qte'].sum()
+
+fig_produit = px.bar(
+    ventes_produit,
+    x='produit',
+    y='qte',
+    title='Ventes par produit'
+)
+
+fig_produit.write_html('ventes-par-produit.html')
+
+# -----------------------------
+# 3. Chiffre d’affaires par produit
+# -----------------------------
+données['ca'] = données['qte'] * données['prix']
+
+ca_produit = données.groupby('produit', as_index=False)['ca'].sum()
+
+fig_ca = px.bar(
+    ca_produit,
+    x='produit',
+    y='ca',
+    title='Chiffre d’affaires par produit'
+)
+
+fig_ca.write_html('ca-par-produit.html')
+
+print("3 graphiques générés avec succès !")
